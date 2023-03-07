@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import NewCourseForm,NewAnnouncementForm
 from .models import Course, Category, Grade,Announcement
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 from django.db.models import Count
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 
@@ -140,15 +140,16 @@ def course_about(request, course_id):
 
 def course_detail(request, course_id):
     user = request.user
+    teacher_mode = False
     course = get_object_or_404(Course, id=course_id)
     if not Course.objects.filter(enrolled=user).exists() and not user==course.user:
-        return HttpResponseForbidden()
-    teacher_mode = False
+        return HttpResponse("<h1>You are not allowed to view details of the course until you enrolled in it </h1>")
+    
     if user == course.user:
         teacher_mode = True
     context = {
         "course": course,
-        "teacher_mode": teacher_mode
+        "teacher_mode": teacher_mode,
     }
     return render(request, 'classroom/course_detail.html', context)
 
@@ -174,7 +175,7 @@ def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         course.delete()
     return redirect('my-courses')
@@ -186,7 +187,7 @@ def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         if request.method == "POST":
             # The instance arg pre-populates the fields
@@ -288,7 +289,7 @@ def grade_submission(request, course_id, grade_id):
     grade = get_object_or_404(Grade, id=grade_id)
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         if request.method == 'POST':
             points = request.POST.get("points")
@@ -296,7 +297,7 @@ def grade_submission(request, course_id, grade_id):
             grade.status = "graded"
             grade.graded_by = user
             grade.save()
-            return redirect("my-submissions", course_id=course.id)
+            return redirect("student-submissions", course_id=course.id)
     context = {
         "course": course,
         "grade": grade

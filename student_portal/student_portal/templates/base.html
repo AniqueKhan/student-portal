@@ -88,6 +88,15 @@
                 ><i class="fa-solid fa-search"></i> Search</a
               >
             </li>
+
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link" href="/admin"
+                ><i class="fa fa-user"></i> Admin</a
+              >
+            </li>
+            {% endif %}
+
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"

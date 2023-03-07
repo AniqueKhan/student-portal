@@ -56,7 +56,6 @@
               class="btn btn-outline-primary ml-2 mb-2"
               >View Details</a
             >
-
             {% if request.user == course.user %}
             <a
               href="{% url 'edit-course' course.id %}"

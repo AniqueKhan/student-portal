@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 from .models import Assignment, Submission, AssignmentFileContent
 from .forms import NewAssignmentForm, NewSubmissionForm
 from module.models import Module
@@ -15,7 +15,7 @@ def new_assignment(request, course_id, module_id):
     files_objects = []
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         if request.method == 'POST':
             form = NewAssignmentForm(request.POST, request.FILES)
@@ -50,7 +50,7 @@ def edit_assignment(request, course_id, module_id,assignment_id):
     files_objects = []
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         if request.method == 'POST':
             form = NewAssignmentForm(request.POST, request.FILES,instance=assignment)
@@ -80,7 +80,7 @@ def delete_assignment(request, course_id, module_id,assignment_id):
     course = get_object_or_404(Course, id=course_id)
     assignment = get_object_or_404(Assignment, id=assignment_id)
     if request.user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     assignment.delete()
     return redirect('course-modules', course_id=course.id)
     

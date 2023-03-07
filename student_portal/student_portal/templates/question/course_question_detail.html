@@ -7,11 +7,14 @@
     <div class="col-3">{% include 'side_panel.html' %}</div>
     <div class="col-9">
       <div>
+        {% if request.user != course.user %}
         <a
           href="{% url 'new-course-question' course.id %}"
           class="btn btn-outline-primary float-end"
           >Ask New Question</a
         >
+        {% endif %}
+
         <h1>{{question.title}}</h1>
 
         <div class="card mb-2 border-0">

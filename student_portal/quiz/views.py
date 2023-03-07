@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 from .models import *
 from .forms import NewQuestionForm, NewQuizForm
 from module.models import Module
@@ -15,7 +15,7 @@ def new_quiz(request, course_id, module_id):
     course = get_object_or_404(Course, id=course_id)
 
     if request.user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
 
     if request.method == "POST":
         form = NewQuizForm(request.POST)
@@ -42,7 +42,7 @@ def edit_quiz(request, course_id, module_id,quiz_id):
     course = get_object_or_404(Course, id=course_id)
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     if request.method == "POST":
         form = NewQuizForm(request.POST,instance=quiz)
         if form.is_valid():
@@ -65,7 +65,7 @@ def delete_quiz(request, course_id, module_id,quiz_id):
     course = get_object_or_404(Course, id=course_id)
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     quiz.delete()
     return redirect('course-modules', course_id=course_id)
 

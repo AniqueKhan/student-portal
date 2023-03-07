@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from classroom.models import Course
 from completion.models import Completion
 from module.models import Module
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 # Create your views here.
 
 @login_required
@@ -17,7 +17,7 @@ def new_page(request,course_id,module_id):
     files_objects = []
 
     if user!=course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
 
     else:
         if request.method == "POST":
@@ -52,8 +52,7 @@ def edit_page(request,course_id,module_id,page_id):
     files_objects = []
 
     if user!=course.user:
-        return HttpResponseForbidden()
-
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         if request.method == "POST":
             form = NewPage(request.POST,request.FILES,instance=page)

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse,HttpResponseForbidden,HttpResponse
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse,HttpResponse
 from classroom.models import Course,Category
 from django.contrib.auth.models import User
 from direct.models import Message
@@ -12,27 +12,7 @@ from authy.models import Profile
 from django.contrib.humanize.templatetags.humanize import naturaltime
 # Create your views here.
 
-@login_required
-def broadcast(request):
-    user = request.user
-    courses = Course.objects.filter(user=user)
 
-    if request.method == "POST":
-        
-        course_select = request.POST['course_select'] 
-        message_body = request.POST['message_body'] 
-        if course_select and message_body:
-            course = Course.objects.get(id=course_select)
-            if user!=course.user:
-                return HttpResponseForbidden()
-            for student in course.enrolled.all():
-                Message.send_message(user,student, message_body)
-            return redirect("inbox")
-        return HttpResponse("Please select info first")
-    context = {
-        "courses":courses
-    }
-    return render(request,"direct/broadcast.html",context)
 
 @login_required
 def send_direct(request):
@@ -47,21 +27,6 @@ def send_direct(request):
     else:
         HttpResponseBadRequest()
 
-@login_required
-def people_we_can_message(request):
-    user=request.user
-    courses = Course.objects.filter(Q(enrolled=user)|Q(user=user))
-    course_select = request.GET.get("course_select")
-    students = None
-
-    if course_select:
-        students = Course.objects.get(id=course_select)
-    context = {
-        "courses":courses,
-        "students":students,
-    }
-    
-    return render(request, 'direct/can_message_list.html', context)
 
 @login_required
 def direct(request,username):

@@ -3,7 +3,7 @@ from .forms import NewModuleForm
 from .models import Module
 from classroom.models import Course
 from completion.models import Completion
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -13,7 +13,7 @@ def new_module(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
 
         if request.method == "POST":
@@ -40,7 +40,7 @@ def edit_module(request, course_id, module_id):
     course = get_object_or_404(Course, id=course_id)
 
     if user != course.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
 
         if request.method == "POST":

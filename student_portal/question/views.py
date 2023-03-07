@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from classroom.models import Course
 from .forms import *
 from .models import *
-from django.http import HttpResponseForbidden, HttpResponse, HttpResponseRedirect
+from django.http import  HttpResponse, HttpResponseRedirect
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 
 # Create your views here.
@@ -97,7 +97,7 @@ def mark_answer(request, course_id, question_id, answer_id):
     question = get_object_or_404(CourseQuestion, id=question_id)
 
     if user != course.user and user != question.user:
-        return HttpResponseForbidden()
+        return HttpResponse("<h1>You are not allowed to perform that operation.</h1>")
     else:
         answer = get_object_or_404(CourseAnswer, id=answer_id)
         answer.is_accepted_answer = True
