@@ -14,3 +14,6 @@ urlpatterns = [
     path('<username>', UserProfile, name="user-profile"),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# ax.pie(sizes_console[angles_console[i]], colors=[colors_console[c] for c in consoles_company[angles_console[i]]],  startangle=angle1,  wedgeprops={'width': 0.5, 'edgecolor': 'white', 'linewidth': 1.5, 'edgecolor': 'white'},  counterclock=False,  radius=1.2,  center=(0, 0),  frame=True,  labeldistance=1.05,  textprops={'fontsize': 8, 'color': 'black', 'weight': 'bold'}, wedgeprops=dict(width=0.5, edgecolor='white'))
