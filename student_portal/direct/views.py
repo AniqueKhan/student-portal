@@ -103,7 +103,7 @@ def search(request):
         
          
         if filter_selected == "Users" or filter_selected == 'All':
-            users = Profile.objects.filter(Q(user__username__icontains=query))
+            users = Profile.objects.filter(Q(user__username__icontains=query)|Q(full_name__icontains=query))
         if filter_selected == "Courses" or filter_selected == 'All':
             courses = Course.objects.filter(Q(title__icontains=query))
         if filter_selected == 'Categories' or filter_selected == 'All':
