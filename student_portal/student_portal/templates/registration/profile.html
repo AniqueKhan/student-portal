@@ -38,17 +38,11 @@
               {% else %}
               <a
                 class="btn btn-warning btn-block mt-2"
+                style="color: white"
                 href="{% url 'edit-profile' %}"
                 >Edit Profile</a
               >
               {% endif %}
-            </div>
-            <div class="row user-detail-row">
-              <div class="col-md-12 col-sm-12 pull-left">
-                <div class="border"></div>
-                <p>Courses</p>
-                <span>{{courses_count}}</span>
-              </div>
             </div>
           </div>
         </div>
@@ -81,7 +75,7 @@
                     {% if profile.full_name %}
                     <div class="row">
                       <div class="col-md-2">
-                        <label>Full Name</label>
+                        <b><label>Full Name</label></b>
                       </div>
                       <div class="col-md-6">
                         <p>{{profile.full_name}}</p>
@@ -91,7 +85,7 @@
 
                     <div class="row">
                       <div class="col-md-2">
-                        <label>Email</label>
+                        <b> <label>Email</label></b>
                       </div>
                       <div class="col-md-6">
                         <p>{{profile.user.email}}</p>
@@ -101,7 +95,7 @@
                     {% if profile.location %}
                     <div class="row">
                       <div class="col-md-2">
-                        <label>Location</label>
+                        <b> <label>Location</label></b>
                       </div>
                       <div class="col-md-6">
                         <p>{{profile.location}}</p>
@@ -110,12 +104,21 @@
                     {% endif %} {% if profile.profile_info %}
                     <div class="row">
                       <div class="col-md-2">
-                        <label>Overview</label>
+                        <b> <label>Overview</label></b>
                       </div>
                       <div class="col-md-6">
                         <p>{{profile.profile_info}}</p>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <b> <label>Courses</label></b>
+                      </div>
+                      <div class="col-md-6">
+                        <p>{{courses_count}}</p>
+                      </div>
+                    </div>
+
                     {% endif %}
                   </div>
                 </div>
